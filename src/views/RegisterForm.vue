@@ -2,8 +2,8 @@
   <div>
     <b-container>
       <b-row>
-        <b-col md="10" class="mx-auto">
-          <b-form @submit.prevent="login">
+        <b-col col="10" md="10" class="mx-auto">
+          <b-form @submit="onSubmit">
             <b-form-group
               id="input-group-1"
               label="Username:"
@@ -31,6 +31,19 @@
               ></b-form-input>
             </b-form-group>
 
+            <b-form-group
+              id="input-group-3"
+              label="Confirm Password:"
+              label-for="input-3"
+            >
+              <b-form-input
+                id="input-3"
+                v-model="form.confirm"
+                type="password"
+                required
+              ></b-form-input>
+            </b-form-group>
+
             <b-button type="submit" variant="primary">Submit</b-button>
           </b-form>
           <b-card class="mt-3" header="Form Data Result">
@@ -48,24 +61,15 @@ export default {
     return {
       form: {
         username: "",
-        password: ""
+        password: "",
+        confirm: ""
       }
     };
   },
   methods: {
-    login() {
-      this.$http
-        .post(
-          "http://127.0.0.1:8000/login",
-          {
-            username: this.form.username,
-            password: this.form.password
-          },
-          { withCredentials: true }
-        )
-        .then(response => {
-          console.log(response);
-        });
+    onSubmit(evt) {
+      evt.preventDefault();
+      alert(JSON.stringify(this.form));
     }
   }
 };
