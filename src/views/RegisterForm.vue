@@ -2,8 +2,8 @@
   <div>
     <b-container>
       <b-row>
-        <b-col col="10" md="10" class="mx-auto">
-          <b-form @submit="onSubmit">
+        <b-col md="10" class="mx-auto">
+          <b-form @submit.prevent="register">
             <b-form-group
               id="input-group-1"
               label="Username:"
@@ -11,10 +11,24 @@
             >
               <b-form-input
                 id="input-1"
-                v-model="form.username"
+                v-model="username"
                 type="text"
                 required
                 placeholder="Enter Username"
+              ></b-form-input>
+            </b-form-group>
+
+            <b-form-group
+              id="input-group-email"
+              label="Email:"
+              label-for="input-email"
+            >
+              <b-form-input
+                id="input-email"
+                v-model="email"
+                type="email"
+                required
+                placeholder="Enter Email"
               ></b-form-input>
             </b-form-group>
 
@@ -25,7 +39,7 @@
             >
               <b-form-input
                 id="input-2"
-                v-model="form.password"
+                v-model="password"
                 type="password"
                 required
               ></b-form-input>
@@ -38,7 +52,7 @@
             >
               <b-form-input
                 id="input-3"
-                v-model="form.confirm"
+                v-model="confirm"
                 type="password"
                 required
               ></b-form-input>
@@ -46,9 +60,6 @@
 
             <b-button type="submit" variant="primary">Submit</b-button>
           </b-form>
-          <b-card class="mt-3" header="Form Data Result">
-            <pre class="m-0">{{ form }}</pre>
-          </b-card>
         </b-col>
       </b-row>
     </b-container>
@@ -59,17 +70,24 @@
 export default {
   data() {
     return {
-      form: {
-        username: "",
-        password: "",
-        confirm: ""
-      }
+      username: "",
+      email: "",
+      password: "",
+      confirm: ""
     };
   },
   methods: {
-    onSubmit(evt) {
-      evt.preventDefault();
-      alert(JSON.stringify(this.form));
+    register: function() {
+      let data = {
+        username: this.username,
+        email: this.email,
+        password: this.password,
+        confirm: this.confirm
+      };
+      this.$store
+        .dispatch("register", data)
+        .then(() => this.$router.push({ name: "login" }))
+        .catch(err => console.log(err));
     }
   }
 };

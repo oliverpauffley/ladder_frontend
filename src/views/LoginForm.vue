@@ -4,17 +4,13 @@
       <b-row>
         <b-col md="10" class="mx-auto">
           <b-form @submit.prevent="login">
-            <b-form-group
-              id="input-group-1"
-              label="Username:"
-              label-for="input-1"
-            >
+            <b-form-group id="input-group-1" label="Email:" label-for="input-1">
               <b-form-input
                 id="input-1"
-                v-model="form.username"
-                type="text"
+                v-model="email"
+                type="email"
                 required
-                placeholder="Enter Username"
+                placeholder="Enter Email"
               ></b-form-input>
             </b-form-group>
 
@@ -25,7 +21,7 @@
             >
               <b-form-input
                 id="input-2"
-                v-model="form.password"
+                v-model="password"
                 type="password"
                 required
               ></b-form-input>
@@ -33,9 +29,6 @@
 
             <b-button type="submit" variant="primary">Submit</b-button>
           </b-form>
-          <b-card class="mt-3" header="Form Data Result">
-            <pre class="m-0">{{ form }}</pre>
-          </b-card>
         </b-col>
       </b-row>
     </b-container>
@@ -46,26 +39,18 @@
 export default {
   data() {
     return {
-      form: {
-        username: "",
-        password: ""
-      }
+      email: "",
+      password: ""
     };
   },
   methods: {
-    login() {
-      this.$http
-        .post(
-          "http://127.0.0.1:8000/login",
-          {
-            username: this.form.username,
-            password: this.form.password
-          },
-          { withCredentials: true }
-        )
-        .then(response => {
-          console.log(response);
-        });
+    login: function() {
+      let email = this.email;
+      let password = this.password;
+      this.$store
+        .dispatch("login", { email, password })
+        .then(() => this.$router.push("/user"))
+        .catch(err => console.log(err));
     }
   }
 };
