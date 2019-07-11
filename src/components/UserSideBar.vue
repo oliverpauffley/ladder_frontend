@@ -1,18 +1,50 @@
 <template>
   <div>
-    <b-nav vertical align="center" justified id="user-side-bar">
-      <h6 id="nav-title">User Options</h6>
+    <b-nav
+      vertical
+      align="center"
+      justified
+      class="pr-1 pl-2 user-side-bar text-wrap"
+    >
+      <b-navbar-brand
+        ><router-link to="/user"> Ladder App</router-link>
+      </b-navbar-brand>
       __________
-      <b-nav-item
-        ><router-link to="/createLadder">Create Ladder</router-link></b-nav-item
-      >
+      <span
+        ><b-nav-item-dropdown text="Ladder Options" dropright="true">
+          <b-dropdown-item href="#">
+            <router-link to="/user/createLadder">Create Ladder</router-link>
+          </b-dropdown-item>
+          <b-dropdown-item href="#">
+            <router-link to="/user/joinLadder">Join Ladder</router-link>
+          </b-dropdown-item>
+          <b-dropdown-item @click.prevent="getLadders">
+            View ladders
+          </b-dropdown-item>
+        </b-nav-item-dropdown>
+      </span>
     </b-nav>
   </div>
 </template>
 
 <script>
 export default {
-  name: "UserSideBar.vue"
+  name: "UserSideBar.vue",
+  computed: {
+    user: function() {
+      let data = this.$store.getters.user;
+      return JSON.parse(data);
+    }
+  },
+  methods: {
+    getLadders: function() {
+      let id = this.user.id;
+      this.$store
+        .dispatch("ladders", id)
+        .then(() => this.$router.push("/user/viewLadders"))
+        .catch(err => console.log(err));
+    }
+  }
 };
 </script>
 
@@ -24,7 +56,7 @@ export default {
 a {
   color: lightgray;
 }
-#nav-title {
-  color: ghostwhite;
+.dropdown {
+  color: darkslategray;
 }
 </style>
