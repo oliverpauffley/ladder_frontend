@@ -1,13 +1,23 @@
 <template>
-  <div class="home">
-    <b-container fluid class="bv-example-row">
+  <div class="home col-12 container-fluid pl-0 ml-0">
+    <b-container fluid>
       <b-row>
-        <b-col sm="2" class="side-bar-col">
-          <UserSideBar></UserSideBar>
+        <b-col class="pl-0 pr-2 col-3 bg-dark h-100">
+          <user-side-bar></user-side-bar>
         </b-col>
-        <b-col sm="8">
-          <b-row cols="8" sm="6">{{ user.username }}</b-row>
-          <b-row cols="4" sm="6">{{ userInfo }}</b-row>
+        <b-col>
+          <b-container class="ml-1 pl-1" fluid>
+            <b-row>
+              <h5 v-if="userInfo != null">
+                {{ userInfo.Username | capitalize }}'s Home Page
+              </h5>
+            </b-row>
+            <b-row>
+              <b-col>
+                <router-view></router-view>
+              </b-col>
+            </b-row>
+          </b-container>
         </b-col>
       </b-row>
     </b-container>
@@ -18,12 +28,13 @@
 import UserSideBar from "../components/UserSideBar";
 export default {
   name: "home",
+  components: { UserSideBar },
   data() {
     return {
-      userInfo: null
+      userInfo: null,
+      formattedDate: null
     };
   },
-  components: { UserSideBar },
   methods: {},
   computed: {
     user: function() {
@@ -36,6 +47,7 @@ export default {
       .get("/auth/users/" + this.user.id.toString())
       .then(response => {
         this.userInfo = response.data;
+        this.formattedDate = this.userInfo.JoinDate.substr(0, 10);
       })
       .catch(error => {
         console.log(error);
@@ -44,14 +56,4 @@ export default {
 };
 </script>
 
-<style>
-.side-bar-col {
-  margin-top: 0;
-  margin-right: 5px;
-  margin-left: 0;
-  padding-left: 0;
-}
-.home {
-  margin-left: 0;
-}
-</style>
+<style scoped></style>

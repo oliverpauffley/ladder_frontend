@@ -40,7 +40,8 @@
 export default {
   data() {
     return {
-      name: "",
+      name: null,
+      owner: null,
       method: null,
       options: [
         { value: null, text: "Please select a Ladder Method" },
@@ -53,17 +54,22 @@ export default {
       ]
     };
   },
+  computed: {
+    user: function() {
+      let userStore = this.$store.getters.user;
+      return JSON.parse(userStore);
+    }
+  },
   methods: {
     createLadder: function() {
       let data = {
-        name: this.username,
+        name: this.name,
         method: this.method,
-        userStore: this.$store.getters.user,
-        user: JSON.parse(this.userStore),
         owner: this.user.id
       };
+      console.log(data);
       this.$http
-              .post("/auth/ladder", data)
+        .post("/auth/ladder", data)
         .then(() => this.$router.push({ name: "user" }))
         .catch(err => console.log(err));
     }

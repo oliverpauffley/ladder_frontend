@@ -2,10 +2,12 @@ import Vue from "vue";
 import Router from "vue-router";
 import store from "./store";
 import Home from "./views/Home";
-import LoginForm from "./views/LoginForm";
-import RegisterForm from "./views/RegisterForm";
+import LoginForm from "./forms/LoginForm";
+import RegisterForm from "./forms/RegisterForm";
 import User from "./views/User";
-import CreateLadderForm from "./views/CreateLadderForm";
+import CreateLadderForm from "./forms/CreateLadderForm";
+import JoinLadderForm from "./forms/JoinLadderForm";
+import LadderView from "./views/LadderView";
 
 Vue.use(Router);
 
@@ -32,15 +34,33 @@ let router = new Router({
       component: User,
       meta: {
         requiresAuth: true
-      }
-    },
-    {
-      path: "/createladder",
-      name: "createladder",
-      component: CreateLadderForm,
-      meta: {
-        requiresAuth: true
-      }
+      },
+      children: [
+        {
+          path: "createLadder",
+          name: "createLadder",
+          component: CreateLadderForm,
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: "joinLadder",
+          name: "joinLadder",
+          component: JoinLadderForm,
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: "viewLadders",
+          name: "viewLadders",
+          component: LadderView,
+          meta: {
+            requiresAuth: true
+          }
+        }
+      ]
     }
   ]
 });

@@ -10,7 +10,8 @@ export default new Vuex.Store({
   state: {
     status: "",
     token: localStorage.getItem("token") || "",
-    user: {}
+    user: {},
+    ladders: []
   },
   mutations: {
     register_request(state) {
@@ -36,6 +37,19 @@ export default new Vuex.Store({
     logout(state) {
       state.status = "";
       state.token = "";
+    },
+    post_request(state) {
+      state.status = "posted awaiting response";
+    },
+    update_ladders(state, ladders) {
+      state.status = "adding ladders to state";
+      state.ladders = ladders;
+    },
+    error(state, error) {
+      state.status = error;
+    },
+    success(state) {
+      state.status = "success";
     }
   },
   actions: {
@@ -71,13 +85,31 @@ export default new Vuex.Store({
           method: "POST"
         })
           .then(resp => {
-            console.log(user);
             commit("register_success");
             resolve(resp);
           })
           .catch(err => {
             commit("auth_error", err);
             localStorage.removeItem("token");
+            reject(err);
+          });
+      });
+    },
+    ladders({ commit }, id) {
+      return new Promise((resolve, reject) => {
+        commit("post_request");
+        let url = "auth/ladder/user/" + id.toString();
+        axios({
+          url: url,
+          method: "GET"
+        })
+          .then(resp => {
+            commit("update_ladders", resp.data);
+            commit("success");
+            resolve(resp);
+          })
+          .catch(err => {
+            commit("error", err);
             reject(err);
           });
       });
@@ -94,6 +126,7 @@ export default new Vuex.Store({
   getters: {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
-    user: state => state.user
+    user: state => state.user,
+    ladders: state => state.ladders
   }
 });
