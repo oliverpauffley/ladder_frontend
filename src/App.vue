@@ -9,6 +9,7 @@
 import TheHeader from "./components/TheHeader";
 
 export default {
+  // TODO add flash messages to user
   components: {
     TheHeader
   },
