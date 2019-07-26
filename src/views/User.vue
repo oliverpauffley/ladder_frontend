@@ -1,5 +1,5 @@
 <template>
-  <div class="home col-12 container-fluid pl-0 ml-0">
+  <div class="home col-12 container-fluid pl-0 ml-0 h-100">
     <b-container fluid>
       <b-row>
         <b-col class="pl-0 pr-2 col-3 bg-dark h-100">
@@ -8,8 +8,8 @@
         <b-col>
           <b-container class="ml-1 pl-1" fluid>
             <b-row>
-              <h5 v-if="userInfo != null">
-                {{ userInfo.Username | capitalize }}'s Home Page
+              <h5 v-if="user != null">
+                {{ user.username | capitalize }}'s Home Page
               </h5>
             </b-row>
             <b-row>
@@ -30,28 +30,18 @@ export default {
   name: "home",
   components: { UserSideBar },
   data() {
-    return {
-      userInfo: null,
-      formattedDate: null
-    };
+    return {};
   },
   methods: {},
   computed: {
     user: function() {
-      let data = this.$store.getters.user;
-      return JSON.parse(data);
+      return this.$store.getters.user;
     }
   },
   mounted() {
-    this.$http
-      .get("/auth/users/" + this.user.id.toString())
-      .then(response => {
-        this.userInfo = response.data;
-        this.formattedDate = this.userInfo.JoinDate.substr(0, 10);
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    this.$store
+      .dispatch("ladders", this.user.id)
+      .catch(err => console.log(err));
   }
 };
 </script>

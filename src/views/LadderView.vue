@@ -1,5 +1,5 @@
 <template>
-  <div v-if="!this.ladders.length">
+  <div v-if="!this.ladders.length && this.index != null">
     <h2>Loading...</h2>
   </div>
   <div v-else>
@@ -7,10 +7,11 @@
       <b-row>
         <b-col class="col-4">
           <b-form-select
-            v-model="index"
+            v-model="selected"
             :options="options"
             size="sm"
             class="m-0"
+            @change="defaultValue = false"
           ></b-form-select>
         </b-col>
         <b-col>
@@ -33,18 +34,29 @@
 <script>
 import Ladder from "../components/ladder";
 import AddGameModal from "../components/AddGameModal";
-// TODO load fetch data for this view and remove from router link
 export default {
   name: "LadderView",
   data() {
     return {
-      index: 0
+      defaultValue: true,
+      selected: 0
     };
   },
   components: { AddGameModal, Ladder },
+  props: ["defaultLadder"],
   computed: {
     ladders: function() {
       return this.$store.getters.ladders;
+    },
+    index: function() {
+      if (this.defaultValue) {
+        if (this.defaultLadder == null) {
+          return 0;
+        }
+        return this.defaultLadder;
+      } else {
+        return this.selected;
+      }
     },
     options: function() {
       let options = [];

@@ -142,8 +142,7 @@ export default {
         loser = player2;
         draw = true;
       }
-      let userJson = this.$store.getters.user;
-      let user = JSON.parse(userJson);
+      let user = this.$store.getters.user;
       let id = user.id;
       let data = {
         winner: winner,

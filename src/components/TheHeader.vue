@@ -24,7 +24,6 @@
   </div>
 </template>
 <script>
-// TODO add in userhome option
 export default {
   computed: {
     isLoggedIn: function() {

@@ -6,6 +6,7 @@
 
 <script>
 export default {
+  // TODO add pagination
   name: "ladder",
   props: ["ladder", "index"],
   data() {

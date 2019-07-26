@@ -63,7 +63,7 @@ export default new Vuex.Store({
             let obj = {};
             obj.id = decoded.ID;
             obj.username = decoded.username;
-            const user = JSON.stringify(obj);
+            const user = obj;
             axios.defaults.headers.common["Authorization"] = token;
             commit("auth_success", token);
             commit("update_user", user);

@@ -8,6 +8,7 @@ import User from "./views/User";
 import CreateLadderForm from "./forms/CreateLadderForm";
 import JoinLadderForm from "./forms/JoinLadderForm";
 import LadderView from "./views/LadderView";
+import UserStats from "./views/UserStats";
 
 Vue.use(Router);
 
@@ -30,12 +31,19 @@ let router = new Router({
     },
     {
       path: "/user",
-      name: "user",
       component: User,
       meta: {
         requiresAuth: true
       },
       children: [
+        {
+          path: "",
+          name: "userStats",
+          component: UserStats,
+          meta: {
+            requiresAuth: true
+          }
+        },
         {
           path: "createLadder",
           name: "createLadder",
@@ -56,6 +64,7 @@ let router = new Router({
           path: "viewLadders",
           name: "viewLadders",
           component: LadderView,
+          props: true,
           meta: {
             requiresAuth: true
           }

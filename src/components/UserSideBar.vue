@@ -23,6 +23,12 @@
           </b-dropdown-item>
         </b-nav-item-dropdown>
       </span>
+
+      <span>
+        <b-nav-item @click="logout">
+          Logout
+        </b-nav-item>
+      </span>
     </b-nav>
   </div>
 </template>
@@ -32,8 +38,7 @@ export default {
   name: "UserSideBar.vue",
   computed: {
     user: function() {
-      let data = this.$store.getters.user;
-      return JSON.parse(data);
+      return this.$store.getters.user;
     }
   },
   methods: {
@@ -42,6 +47,12 @@ export default {
       this.$store
         .dispatch("ladders", id)
         .then(() => this.$router.push("/user/viewLadders"))
+        .catch(err => console.log(err));
+    },
+    logout() {
+      this.$store
+        .dispatch("logout")
+        .then(() => this.$router.push("/"))
         .catch(err => console.log(err));
     }
   }
