@@ -9,6 +9,7 @@ import CreateLadderForm from "./forms/CreateLadderForm";
 import JoinLadderForm from "./forms/JoinLadderForm";
 import LadderView from "./views/LadderView";
 import UserStats from "./views/UserStats";
+import ChangePasswordForm from "./forms/ChangePasswordForm";
 
 Vue.use(Router);
 
@@ -40,6 +41,14 @@ let router = new Router({
           path: "",
           name: "userStats",
           component: UserStats,
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: "changePassword",
+          name: "changePassword",
+          component: ChangePasswordForm,
           meta: {
             requiresAuth: true
           }

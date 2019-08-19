@@ -1,8 +1,8 @@
 <template>
-  <div class="home col-12 container-fluid pl-0 ml-0 h-100">
+  <div class="home pl-0 ml-0">
     <b-container fluid>
       <b-row>
-        <b-col class="pl-0 pr-2 col-3 bg-dark h-100">
+        <b-col class="col-3">
           <user-side-bar></user-side-bar>
         </b-col>
         <b-col>

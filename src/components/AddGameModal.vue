@@ -159,8 +159,9 @@ export default {
             this.$refs.modal.hide();
           })
         )
+        .then(() => this.$store.dispatch("ladders", id))
+        .then(this.resetModal)
         .catch(err => console.log(err));
-      this.$store.dispatch("ladders", id).then(this.resetModal);
     },
     resetModal() {
       this.player1 = null;
